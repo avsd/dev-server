@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install APT packages
+      apt: pkg={{item}} state=installed
+      register: apt_install
+      with_items:
+        - git
+        - mercurial
+        - tmux
+        - libjpeg-dev
+        - libtiff5-dev
+        - nginx
+        - supervisor
+        - ansible
+        - python-pip
+        - python3-pip
+        - ruby-dev
+        - python-dev
+        - libncurses5-dev
+        - libpq-dev
+        - libsqlite3-dev
+        - llvm
+        - automake
+        - libbz2-dev
+        - curl
+        - libreadline6-dev
+        - libxml2-dev
+        - postgresql
+        - rpl
+        - htop
+        - nodejs
+
+    - name: Install NPM
+      npm: name=npm global=true state=latest
+      when: apt_install.changed
