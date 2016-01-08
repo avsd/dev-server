@@ -17,6 +17,7 @@
         - ansible
         - python-pip
         - python3-pip
+        - virtualenvwrapper
         - ruby-dev
         - python-dev
         - libncurses5-dev
