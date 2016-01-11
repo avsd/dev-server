@@ -40,7 +40,7 @@
         - nodejs
 
     - name: Install npm role from Ansible Galaxy
-      command: ansible-galaxy install nodesource.node
+      command: ansible-galaxy install nodesource.node --ignore-errors
       when: apt_install.changed
 
     - name: Install NPM
