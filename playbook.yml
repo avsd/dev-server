@@ -39,6 +39,10 @@
         - htop
         - nodejs
 
+    - name: Install npm role from Ansible Galaxy
+      local_action: ansible-galaxy install nodesource.node
+      when: apt_install.changed
+
     - name: Install NPM
       npm: name=npm global=true state=latest
       when: apt_install.changed
