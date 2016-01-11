@@ -44,7 +44,7 @@
       when: apt_install.changed
 
     - name: Create the developer user
-      user: name={{ username }} comment={{ fullname }} shell=/bin/bash
+      user: name="{{ username }}" comment="{{ fullname }}" shell=/bin/bash
 
     - name: Copy files to dests home
       template: >
