@@ -2,7 +2,6 @@ heat_template_version: 2015-04-30
 
 description: |
   OpenStack Heat template for a Single Linux machine with VIM/Tmux development environment.
-
 parameter_groups:
 
 - label: Server Settings
@@ -15,7 +14,7 @@ parameter_groups:
   parameters:
     - username
     - email
-    - fullanme
+    - fullname
 
 - label: rax-dev-params
   # These are parameters that will not be displayed in the portal. The purpose
@@ -95,7 +94,7 @@ parameters:
     label: Email address
     type: string
     constraints:
-      - allowed_pattern: "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+      - allowed_pattern: "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
         description: Must be a valid email
 
 resources:
