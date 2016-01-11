@@ -2,9 +2,14 @@
 - hosts: localhost
   connection: local
 
+  vars:
+    # username
+    # email
+    # fullname
+
   tasks:
     - name: Install APT packages
-      apt: pkg={{item}} state=installed
+      apt: pkg={{ item }} state=installed
       register: apt_install
       with_items:
         - git
@@ -37,3 +42,19 @@
     - name: Install NPM
       npm: name=npm global=true state=latest
       when: apt_install.changed
+
+    - name: Create the developer user
+      user: name={{ username }} comment={{ fullname }} shell=/bin/bash
+
+    - name: Copy files to dests home
+      template: >
+          src=./homedir/{{ item }}
+          dest=/home/{{ username }}/.{{ item }}
+          owner={{ username }}
+          group={{ username }}
+          mode=0644
+      with_items:
+        - bash_aliaces
+        - gitconfig
+        - tmux.conf
+        - vimrc
