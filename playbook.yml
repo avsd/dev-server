@@ -62,26 +62,31 @@
         - vim-gui-common
 
     - name: "Compile Vim from source: clone the latest Vim from GitHub"
-      git: repo="https://github.com/vim/vim.git" dest="/tmp/vim-source"
+      git: repo="https://github.com/vim/vim.git" dest="/tmp/vim-source" update=no
 
     - name: "Compile Vim from source: run configure"
       command: >
         ./configure --with-features=huge 
             --enable-multibyte 
             --enable-rubyinterp 
-            --enable-pythoninterp 
-            --with-python-config-dir=/usr/lib/python3/config 
+            --enable-python3interp 
             --enable-perlinterp 
             --enable-luainterp 
             --enable-cscope --prefix=/usr
       args:
         chdir: /tmp/vim-source
-        creates: /tmp/vim-source/Makefile
 
     - name: "Compile Vim from source: make"
       command: make VIMRUNTIMEDIR=/usr/share/vim/vim74
       args:
         chdir: /tmp/vim-source
+        creates: /tmp/vim-source/src/vim
+
+    - name: "Compile Vim from source: make install"
+      command: make install
+      args:
+        chdir: /tmp/vim-source
+        creates: /usr/local/bin/vim
 
     - name: Create the developer user
       user: name="{{ username }}" comment="{{ fullname }}" shell=/bin/bash
