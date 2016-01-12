@@ -131,9 +131,9 @@ resources:
             # Install nodesource.node using Ansible
               - ansible-galaxy install nodesource.node
             # Clone the playbook repo
-              - git clone https://github.com/avsd/dev-server.git /tmp/dev-server-playbook/
+              - git clone https://github.com/avsd/dev-server.git /tmp/dev-server/
             # Play ansible playbook
-              - ansible-playbook /tmp/dev-server-playbook/playbook.yml --extra-vars '{"username": "%u", "fullname": "%f", "email": "%e"}'
+              - ansible-playbook /tmp/dev-server/playbook.yml --extra-vars '{"username": "%u", "fullname": "%f", "email": "%e"}'
           params:
             "%u": { get_param: username }
             "%f": { get_param: fullname }
