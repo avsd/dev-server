@@ -25,6 +25,7 @@
         - virtualenvwrapper
         - ruby-dev
         - python-dev
+        - python3-dev
         - libncurses5-dev
         - libpq-dev
         - libsqlite3-dev
@@ -35,9 +36,9 @@
         - libreadline6-dev
         - libxml2-dev
         - postgresql
-        - rpl
         - htop
         - nodejs
+        - npm
 
     - name: Install npm role from Ansible Galaxy
       command: ansible-galaxy install nodesource.node --ignore-errors
@@ -46,6 +47,41 @@
     - name: Install NPM
       npm: name=npm global=true state=latest
       when: apt_install.changed
+
+    - name: Install latest versions of Python packages
+      command: pip install --upgrade pip virtualenvwrapper
+
+    - name: "Compile Vim from source: uninstall the existing vim first"
+      apt: pkg={{ item }} state=absent
+      with_items:
+        - vim
+        - vim-runtime
+        - gvim
+        - vim-tiny
+        - vim-common
+        - vim-gui-common
+
+    - name: "Compile Vim from source: clone the latest Vim from GitHub"
+      git: repo="https://github.com/vim/vim.git" dest="/tmp/vim-source"
+
+    - name: "Compile Vim from source: run configure"
+      command: >
+        ./configure --with-features=huge 
+            --enable-multibyte 
+            --enable-rubyinterp 
+            --enable-pythoninterp 
+            --with-python-config-dir=/usr/lib/python3/config 
+            --enable-perlinterp 
+            --enable-luainterp 
+            --enable-cscope --prefix=/usr
+      args:
+        chdir: /tmp/vim-source
+        creates: /tmp/vim-source/Makefile
+
+    - name: "Compile Vim from source: make"
+      command: make VIMRUNTIMEDIR=/usr/share/vim/vim74
+      args:
+        chdir: /tmp/vim-source
 
     - name: Create the developer user
       user: name="{{ username }}" comment="{{ fullname }}" shell=/bin/bash
