@@ -1,2 +1,2 @@
 alias ta='tmux attach'
-alias vi=/usr/local/bin/vim
+alias vi=vim

@@ -26,6 +26,7 @@
         - ruby-dev
         - python-dev
         - python3-dev
+        - libperl-dev
         - libncurses5-dev
         - libpq-dev
         - libsqlite3-dev
@@ -88,6 +89,9 @@
         chdir: /tmp/vim-source
         creates: /usr/local/bin/vim
 
+    - name: "Compile Vim from source: symlink"
+      file: src=/usr/bin/vim dest=/usr/bin/vi state=link
+
     - name: Create the developer user
       user: name="{{ username }}" comment="{{ fullname }}" shell=/bin/bash
 
@@ -103,3 +107,14 @@
         - gitconfig
         - tmux.conf
         - vimrc
+
+    - name: Creade dir structure for .vim folder
+      file: dest=/home/{{ username }}/.vim/bundle state=directory owner={{ username }} group={{ username }} mode=0755
+
+    - name: Clone vundle
+      git: repo="https://github.com/gmarik/Vundle.vim.git" dest="/home/{{ username }}/.vim/bundle/Vundle.vim" update=no 
+      become_user: "{{ username }}"
+
+    - name: Install Vim plugins
+      command: vim +PluginInstall +qall
+      become_user: "{{ username }}"
