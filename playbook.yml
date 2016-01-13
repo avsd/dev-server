@@ -103,7 +103,7 @@
           group={{ username }}
           mode=0644
       with_items:
-        - bash_aliaces
+        - bash_aliases
         - gitconfig
         - tmux.conf
         - vimrc
