@@ -107,6 +107,7 @@
         - gitconfig
         - tmux.conf
         - vimrc
+        - ssh/rc
 
     - name: Creade dir structure for .vim folder
       file: dest=/home/{{ username }}/.vim/bundle state=directory owner={{ username }} group={{ username }} mode=0755
