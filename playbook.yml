@@ -7,6 +7,9 @@
     # email
     # fullname
 
+  roles:
+    - nodesource.node
+
   tasks:
     - name: Install APT packages
       apt: pkg={{ item }} state=installed
@@ -38,8 +41,6 @@
         - libxml2-dev
         - postgresql
         - htop
-        - nodejs
-        - npm
 
     - name: Install npm role from Ansible Galaxy
       command: ansible-galaxy install nodesource.node --ignore-errors
