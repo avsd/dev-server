@@ -41,6 +41,7 @@
         - libxml2-dev
         - postgresql
         - htop
+        - docker.io
 
     - name: Install npm role from Ansible Galaxy
       command: ansible-galaxy install nodesource.node --ignore-errors
@@ -78,7 +79,7 @@
       args:
         chdir: /tmp/vim-source
 
-    - name: "Compile Vim from source: make"
+    - name: "Compile Vim from source: make. NOTE: This step may take a while..."
       command: make VIMRUNTIMEDIR=/usr/share/vim/vim74
       args:
         chdir: /tmp/vim-source
