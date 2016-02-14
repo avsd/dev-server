@@ -94,8 +94,16 @@
     - name: "Compile Vim from source: symlink"
       file: src=/usr/bin/vim dest=/usr/bin/vi state=link
 
+    - name: Create "docker" group
+      group: name=docker
+      register: docker_group
+
+    - name: Restart docker server
+      command: service docker restart
+      when: docker_group.changed
+
     - name: Create the developer user
-      user: name="{{ username }}" comment="{{ fullname }}" shell=/bin/bash groups="sudo"
+      user: name="{{ username }}" comment="{{ fullname }}" shell=/bin/bash groups="sudo,docker"
 
     - name: Copy files to dests home
       template: >
