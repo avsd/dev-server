@@ -11,7 +11,15 @@
     - nodesource.node
 
   tasks:
-    - name: Install APT packages
+
+    - name: Add GPG key for Docker
+      apt_key: keyserver=hkp://p80.pool.sks-keyservers.net:80 id=58118E89F3A912897C070ADBF76221572C52609D
+
+    - name: Add Docker repository
+      apt_repository: >
+          repo="deb https://apt.dockerproject.org/repo {{ ansible_lsb.id|lower }}-{{ ansible_lsb.codename}} main"
+
+    - name: "Install APT packages. NOTE: This step may take a while..."
       apt: pkg={{ item }} state=installed
       register: apt_install
       with_items:
@@ -41,7 +49,7 @@
         - libxml2-dev
         - postgresql
         - htop
-        - docker.io
+        - docker-engine
 
     - name: Install npm role from Ansible Galaxy
       command: ansible-galaxy install nodesource.node --ignore-errors
