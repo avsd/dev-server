@@ -114,7 +114,7 @@
       user: name="{{ username }}" comment="{{ fullname }}" shell=/bin/bash groups="sudo,docker"
 
     - name: Create .ssh dir
-      file: path=/home/{{ username }}/.ssh state=directory mode=0700
+      file: path=/home/{{ username }}/.ssh state=directory mode=0700 user={{ username }} group={{ username }}
 
     - name: Copy files to dests home
       template: >
