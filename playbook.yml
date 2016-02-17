@@ -113,6 +113,9 @@
     - name: Create the developer user
       user: name="{{ username }}" comment="{{ fullname }}" shell=/bin/bash groups="sudo,docker"
 
+    - name: Create .ssh dir
+      file: path=/home/{{ username }}/.ssh state=directory mode=0700
+
     - name: Copy files to dests home
       template: >
           src=./homedir/{{ item }}
