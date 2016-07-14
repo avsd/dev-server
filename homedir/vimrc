@@ -81,7 +81,7 @@ let g:pymode_options_colorcolumn = 110
 let g:jedi#use_tabs_not_buffers = 1
 
 " NERDTree settings
-let NERDTreeIgnore = ['\.pyc$', '\.diff$', '\.egg-info$']
+let NERDTreeIgnore = ['\.pyc$', '\.diff$', '\.egg-info$', '^__pycache__$']
 let g:NERDTreeWinSize = 40
 autocmd VimEnter * NERDTree
 " autocmd BufEnter * NERDTreeMirror
