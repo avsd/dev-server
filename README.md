@@ -48,7 +48,9 @@
 
    There might be a mismatch between the NodeJS version in the Ansible package and available
    versions in Ubuntu repository. You just need to add a correct version as an environment
-   variable. For Ubuntu 16.4 it will be: `-e nodejs_version=4.5`.
+   variable. For Ubuntu 16.4 it will be:
+
+            -e nodejs_version=4.5
 
    To check which versions are available run the command:
 
