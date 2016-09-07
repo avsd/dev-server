@@ -134,7 +134,7 @@
       file: dest=/home/{{ username }}/.vim/bundle state=directory owner={{ username }} group={{ username }} mode=0755
 
     - name: Clone vundle
-      git: repo="https://github.com/gmarik/Vundle.vim.git" dest="/home/{{ username }}/.vim/bundle/Vundle.vim" update=no 
+      git: repo="https://github.com/VundleVim/Vundle.vim.git" dest="/home/{{ username }}/.vim/bundle/Vundle.vim" update=no 
       become_user: "{{ username }}"
 
     - name: Install Vim plugins
