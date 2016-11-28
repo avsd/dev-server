@@ -14,7 +14,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
-Plugin 'https://gitlab.com/mcepl/vim-behave.git'
+Plugin 'mcepl/cucutags'
 
 
 call vundle#end()            " required
