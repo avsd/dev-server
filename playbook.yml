@@ -88,7 +88,7 @@
         chdir: /tmp/vim-source
 
     - name: "Compile Vim from source: make. NOTE: This step may take a while..."
-      command: make VIMRUNTIMEDIR=/usr/share/vim/vim74
+      command: make VIMRUNTIMEDIR="/usr/share/vim/`grep define.*VIM_VERSION_NODOT src/version.h | grep 'vim[0-9]\+' -o`"
       args:
         chdir: /tmp/vim-source
         creates: /tmp/vim-source/src/vim
@@ -135,8 +135,10 @@
 
     - name: Clone vundle
       git: repo="https://github.com/VundleVim/Vundle.vim.git" dest="/home/{{ username }}/.vim/bundle/Vundle.vim" update=no 
+      become: yes
       become_user: "{{ username }}"
 
     - name: Install Vim plugins
       command: vim +PluginInstall +qall
+      become: yes
       become_user: "{{ username }}"
