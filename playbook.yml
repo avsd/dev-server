@@ -50,6 +50,7 @@
         - postgresql
         - htop
         - docker-engine
+        - aptitude
 
     - name: Install npm role from Ansible Galaxy
       command: ansible-galaxy install nodesource.node --ignore-errors
