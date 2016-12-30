@@ -149,3 +149,6 @@
       command: yes | vim +PluginInstall +qall
       become: yes
       become_user: "{{ username }}"
+
+    - name: Remove .viminfo file
+      file: path=/home/{{ username }}/.viminfo state=absent
