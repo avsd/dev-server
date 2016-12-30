@@ -94,7 +94,8 @@
         chdir: /tmp/vim-source
 
     - name: "Compile Vim from source: make. NOTE: This step may take a while..."
-      command: make VIMRUNTIMEDIR="/usr/share/vim/`grep define.*VIM_VERSION_NODOT src/version.h | grep 'vim[0-9]\+' -o`"
+      command: >
+        make VIMRUNTIMEDIR="/usr/share/vim/`grep define.*VIM_VERSION_NODOT /tmp/vim-source/src/version.h | grep 'vim[0-9]\+' -o`"
       args:
         chdir: /tmp/vim-source
         creates: /tmp/vim-source/src/vim
