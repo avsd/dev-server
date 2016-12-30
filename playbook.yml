@@ -3,6 +3,8 @@
   connection: local
 
   vars:
+    swap_file: /swapfile
+    swap_file_size: 8G
     # username
     # email
     # fullname
@@ -152,3 +154,26 @@
 
     - name: Remove .viminfo file
       file: path=/home/{{ username }}/.viminfo state=absent
+
+
+    # SWAP FILE
+    - name: Check if swap file exists
+      stat: path="{{swap_file}}" get_md5=no get_checksum=no
+      register: swap_file_check
+
+    - name: Create swap file
+      command: fallocate -l {{ swap_file_size }} {{ swap_file }}
+      when: not swap_file_check.stat.exists
+
+    - name: Change swap file permissions
+      file: path="{{swap_file}}" owner=root group=root mode=0600
+
+    - name: Format swap file
+      command: "mkswap {{ swap_file }}"
+      when: not swap_file_check.stat.exists
+
+    - name: Write swap entry in fstab
+      mount: name=none src="{{swap_file}}" fstype=swap state=present
+
+    - name: Enable swap
+      command: "swapon -a"
