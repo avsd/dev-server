@@ -146,7 +146,7 @@
       become_user: "{{ username }}"
 
     - name: Install Vim plugins
-      command: yes | vim +PluginInstall +qall
+      command: echo -e '\n\n\n\n\n' | vim +PluginInstall +qall
       become: yes
       become_user: "{{ username }}"
 
