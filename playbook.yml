@@ -52,6 +52,11 @@
         - docker-engine
         - aptitude
 
+    - name: "Upgrade all APT packages to the latest version. NOTE: This step may take a while..."
+      apt:
+          upgrade: dist
+          update_cache: yes
+
     - name: Install npm role from Ansible Galaxy
       command: ansible-galaxy install nodesource.node --ignore-errors
       when: apt_install.changed
@@ -140,11 +145,6 @@
       become_user: "{{ username }}"
 
     - name: Install Vim plugins
-      command: vim +PluginInstall +qall
+      command: yes | vim +PluginInstall +qall
       become: yes
       become_user: "{{ username }}"
-
-    - name: "Upgrade all APT packages to the latest version. NOTE: This step may take a while..."
-      apt:
-          upgrade: dist
-          update_cache: yes
