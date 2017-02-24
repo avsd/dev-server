@@ -95,9 +95,12 @@
       args:
         chdir: /tmp/vim-source
 
+    - name: "Get Vim version"
+      shell: grep define.*VIM_VERSION_NODOT /tmp/vim-source/src/version.h | grep 'vim[0-9]\+' -o
+      register: vim_version
+
     - name: "Compile Vim from source: make. NOTE: This step may take a while..."
-      command: >
-        make VIMRUNTIMEDIR="/usr/share/vim/`grep define.*VIM_VERSION_NODOT /tmp/vim-source/src/version.h | grep 'vim[0-9]\+' -o`"
+      command: make VIMRUNTIMEDIR="/usr/share/vim/{{ vim_version.stdout }}"
       args:
         chdir: /tmp/vim-source
         creates: /tmp/vim-source/src/vim
