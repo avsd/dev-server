@@ -18,8 +18,16 @@
       apt_key: keyserver=hkp://p80.pool.sks-keyservers.net:80 id=58118E89F3A912897C070ADBF76221572C52609D
 
     - name: Add Docker repository
-      apt_repository: >
-          repo="deb https://apt.dockerproject.org/repo {{ ansible_lsb.id|lower }}-{{ ansible_lsb.codename}} main"
+      apt_repository:
+          repo: deb https://apt.dockerproject.org/repo {{ ansible_lsb.id|lower }}-{{ ansible_lsb.codename}} main
+
+    - name: Add GPG key for yarn
+      apt_key: url=https://dl.yarnpkg.com/debian/pubkey.gpg
+
+    - name: Add yarn repository
+      apt_repository: 
+          repo: deb https://dl.yarnpkg.com/debian/ stable main
+          filename: 'yarn'
 
     - name: "Install APT packages. NOTE: This step may take a while..."
       apt: pkg={{ item }} state=installed
@@ -53,6 +61,7 @@
         - htop
         - docker-engine
         - aptitude
+        - yarn
 
     - name: "Upgrade all APT packages to the latest version. NOTE: This step may take a while..."
       apt:
