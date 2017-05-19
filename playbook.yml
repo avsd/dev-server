@@ -21,13 +21,22 @@
       apt_repository:
           repo: deb https://apt.dockerproject.org/repo {{ ansible_lsb.id|lower }}-{{ ansible_lsb.codename}} main
 
-    - name: Add GPG key for yarn
-      apt_key: url=https://dl.yarnpkg.com/debian/pubkey.gpg
+    - name: Add GPG key for LLVM
+      apt_key: url=http://apt.llvm.org/llvm-snapshot.gpg.key
 
-    - name: Add yarn repository
-      apt_repository: 
-          repo: deb https://dl.yarnpkg.com/debian/ stable main
-          filename: 'yarn'
+    - name: Add LLVM repository
+      apt_repository:
+          repo: deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-3.9 main
+          filename: 'llvm'
+
+    - name: Uninstall conflicting LLVM packages
+      apt: pkg={{ item }} state=absent
+      with_items:
+        - llvm
+        - llvm-3.8-dev
+        - llvm-3.8
+        - llvm-runtime
+        - llvm-3.8-runtime
 
     - name: "Install APT packages. NOTE: This step may take a while..."
       apt: pkg={{ item }} state=installed
@@ -51,7 +60,6 @@
         - libncurses5-dev
         - libpq-dev
         - libsqlite3-dev
-        - llvm
         - automake
         - libbz2-dev
         - curl
@@ -61,7 +69,11 @@
         - htop
         - docker-engine
         - aptitude
-        - yarn
+        - build-essential
+        - cmake
+        - llvm-3.9
+        - clang-3.9
+        - lldb-3.9
 
     - name: "Upgrade all APT packages to the latest version. NOTE: This step may take a while..."
       apt:
@@ -79,6 +91,13 @@
     - name: Install latest versions of Python packages
       command: pip install --upgrade pip virtualenvwrapper
 
+    - name: Install some NPM packages
+      npm: name={{ item }} global=yes
+      with_items:
+        - yarn
+        - eslint
+
+    # Vim
     - name: "Compile Vim from source: uninstall the existing vim first"
       apt: pkg={{ item }} state=absent
       with_items:
@@ -163,6 +182,19 @@
       command: echo -e '\n\n\n\n\n' | vim +PluginInstall +qall
       become: yes
       become_user: "{{ username }}"
+
+    - name: Install Tern
+      chdir: "/home/{{ username }}/.vim/bundle/YouCompleteMe/third_party/ycmd/third_party/tern_runtime"
+      command: npm install --production
+      become: yes
+      become_user: "{{ username }}"
+
+    - name: "Compile YouCompleteMe. NOTE: This step may take a while..."
+      chdir: "/home/{{ username }}/.vim/bundle/YouCompleteMe/"
+      command: ./install.py --tern-completer
+      become: yes
+      become_user: "{{ username }}"
+      creates: "/home/{{ username }}/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so"
 
     - name: Remove .viminfo file
       file: path=/home/{{ username }}/.viminfo state=absent

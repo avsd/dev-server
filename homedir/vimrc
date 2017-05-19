@@ -16,7 +16,8 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'mcepl/cucutags'
 Plugin 'mustache/vim-mustache-handlebars'
-
+"Plugin 'ternjs/tern_for_vim'
+Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()            " required
 " End of Bundles <<<<
@@ -30,12 +31,21 @@ set scrolloff=10
 "let g:pydiction_location = '/home/david/.vim/pydiction-1.2/complete-dict'
 "let g:pydiction_menu_height = 20
 
+"WatchTheDocs
+au BufRead,BufNewFile *.watch set filetype=yaml
+
 "set smartindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set colorcolumn=110
 highlight ColorColumn ctermbg=7
+
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType json setlocal shiftwidth=2 tabstop=2
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+autocmd FileType css setlocal shiftwidth=2 tabstop=2
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2
 
 
 " Rope
@@ -80,6 +90,7 @@ let g:pymode_options_colorcolumn = 110
 
 " Python: Go to definition in tabs
 let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#completions_enabled = 0
 
 " NERDTree settings
 let NERDTreeIgnore = ['\.pyc$', '\.diff$', '\.egg-info$', '^__pycache__$']
