@@ -179,7 +179,8 @@
       become_user: "{{ username }}"
 
     - name: Install Vim plugins
-      command: echo -e '\n\n\n\n\n' | vim +PluginInstall +qall
+      # command: echo -e '\n\n\n\n\n' | vim +PluginInstall +qall
+      command: vim -E -s -c "source /home/{{ username }}/.vimrc" -c PluginInstall -c qa
       become: yes
       become_user: "{{ username }}"
 
