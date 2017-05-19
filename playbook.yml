@@ -184,17 +184,19 @@
       become_user: "{{ username }}"
 
     - name: Install Tern
-      chdir: "/home/{{ username }}/.vim/bundle/YouCompleteMe/third_party/ycmd/third_party/tern_runtime"
       command: npm install --production
       become: yes
       become_user: "{{ username }}"
+      args:
+        chdir: "/home/{{ username }}/.vim/bundle/YouCompleteMe/third_party/ycmd/third_party/tern_runtime"
 
     - name: "Compile YouCompleteMe. NOTE: This step may take a while..."
-      chdir: "/home/{{ username }}/.vim/bundle/YouCompleteMe/"
       command: ./install.py --tern-completer
       become: yes
       become_user: "{{ username }}"
-      creates: "/home/{{ username }}/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so"
+      args:
+        chdir: "/home/{{ username }}/.vim/bundle/YouCompleteMe/"
+        creates: "/home/{{ username }}/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so"
 
     - name: Remove .viminfo file
       file: path=/home/{{ username }}/.viminfo state=absent
